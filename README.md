@@ -12,7 +12,7 @@ One of the available historical Unix systems included is [2.11BSD](https://en.wi
 
 In this repository you can find examples of using 2.11BSD.
 
-** Adding a user **
+**Adding a user**
 
 Login as root. Make an entry in /etc/passwd, using the special vipw
 version of the vi editor`. _firstname_ is the first name of the user,
@@ -22,23 +22,24 @@ _fullname_ is the full name.
    vipw
 ```
 I propose to use the following line:
+
   _firstname_::201:20:_fullname_:/home/_firstname_:/bin/tcsh  
 
 Make a directory for your user with the name
 
 ```
    cd /home
-   mkdir _firstname_
-   chown _firstname_ _firstname_
+   mkdir firstname
+   chown firstname firstname
 ```
 
 Copy some standard files into the home directory of the new user
 
 ```
    cd /home/user
-   cp .* /home/_firstname_
-   cd /home/_firstname_
-   chown _firstname_ .*
+   cp .* /home/firstname
+   cd /home/firstname
+   chown firstname .*
 ```
 
 Èdit the .login file to make a better prompt:
@@ -62,7 +63,7 @@ Login with the newly created user, then change the password with
   passwd
 ```
 
-** compiling a C program **
+**Compiling a C program**
 
-** compiling a Pascal program **
+**Compiling a Pascal program**
 
