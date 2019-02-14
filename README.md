@@ -42,7 +42,7 @@ Copy some standard files into the home directory of the new user
    chown firstname .*
 ```
 
-Èdit the .login file to make a better prompt:
+Edit the .login file to make a better prompt:
 
 ```
    vi .login
@@ -57,7 +57,7 @@ Logout with
    logout
 ```
 
-Login with the newly created user, then change the password with
+Login as the newly created user, then change the password with
 
 ```
   passwd
