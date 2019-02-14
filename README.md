@@ -15,16 +15,17 @@ In this repository you can find examples of using 2.11BSD.
 **Adding a user**
 
   [download pdf](AddUser.pdf)
+
   [download Openoffice Writer document](AddUser.odt)
 
 
 **Compiling a C program**
 
-    <to be written>
+  <to be written>
 
 **Compiling a Pascal program**
 
-    <to be written>
+  <to be written>
 
 
-For questions and proposalsforchanges and additions please r77@bluewin.ch
+For questions and proposals for changes and additions please contact r77@bluewin.ch
