@@ -14,8 +14,8 @@ In this repository you can find examples of using 2.11BSD.
 
 **Adding a user**
 
-    [View as pdf](https://github.com/rricharz/pidp11-2.11bsd/blob/master/AddUser.pdf)
-    [View in Openoffice Writer](https://github.com/rricharz/pidp11-2.11bsd/blob/master/AddUser.odt)
+  [View as pdf](AddUser.pdf)
+  [View in Openoffice Writer](https://github.com/rricharz/pidp11-2.11bsd/blob/master/AddUser.odt)
 
 
 **Compiling a C program**
