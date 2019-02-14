@@ -14,56 +14,16 @@ In this repository you can find examples of using 2.11BSD.
 
 **Adding a user**
 
-Login as root. Make an entry in /etc/passwd, using the special vipw
-version of the vi editor`. _firstname_ is the first name of the user,
-_fullname_ is the full name.
+    [View as pdf](AddUser.pdf)		[View in Openoffice Writer](AddUser.odt)
 
-```
-   vipw
-```
-I propose to use the following line:
-
-  _firstname_::201:20:_fullname_:/home/_firstname_:/bin/tcsh  
-
-Make a directory for your user with the name
-
-```
-   cd /home
-   mkdir firstname
-   chown firstname firstname
-```
-
-Copy some standard files into the home directory of the new user
-
-```
-   cd /home/user
-   cp .* /home/firstname
-   cd /home/firstname
-   chown firstname .*
-```
-
-Edit the .login file to make a better prompt:
-
-```
-   vi .login
-```
-Change the set prompt... line to:
-
-   set prompt='%n@%m:%c$ '
-
-Logout with
-
-```
-   logout
-```
-
-Login as the newly created user, then change the password with
-
-```
-  passwd
-```
 
 **Compiling a C program**
 
+    <to be written>
+
 **Compiling a Pascal program**
 
+    <to be written>
+
+
+For questions and proposalsforchanges and additions please r77@bluewin.ch
