@@ -10,7 +10,7 @@ historical [PDP-11](http://pdp-11.nl), using a Raspberry Pi and the emulator
 
 One of the available historical Unix systems included is [2.11BSD](https://en.wikipedia.org/wiki/Berkeley_Software_Distribution).
 
-In this repository you can find examples of using 2.11BSD.
+In this repository you can find some short tutorials to get started with 2.11 BSD.
 
 **Adding a user**
 
@@ -18,14 +18,18 @@ In this repository you can find examples of using 2.11BSD.
 
   [download Openoffice Writer document](AddUser.odt)
 
+**Using the text editor vi**
+
+  [download pdf](Vi.pdf)
+
+  [download Openoffice Writer document](Vi.odt)
+
 
 **Compiling a C program**
 
-  <to be written>
+  [download pdf](CompileC.pdf)
 
-**Compiling a Pascal program**
-
-  <to be written>
+  [download Openoffice Writer document](CompileC.odt)
 
 
 For questions and proposals for changes and additions please contact r77@bluewin.ch
