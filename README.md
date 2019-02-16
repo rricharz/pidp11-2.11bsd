@@ -4,7 +4,8 @@ Using the historical Unix 2.11BSC operating system on the pidp-11
 
 The [pidp11](http://obsolescence.wixsite.com/obsolescence/pidp-11) is a replica of the
 historical [PDP-11](http://pdp-11.nl), using a Raspberry Pi and the emulator
-[simh](https://en.wikipedia.org/wiki/SIMH).
+[simh](https://en.wikipedia.org/wiki/SIMH). Many thanks to Oscar Vermeulen
+for this very interesting kit. 
 
 ![Alt text](pidp11.jpg?raw=true "pidp11")
 
