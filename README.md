@@ -20,7 +20,7 @@ In this repository you can find some short tutorials to get started with 2.11 BS
 
 **Using the text editor vi**
 
-  [look at or download pdf(Vi.pdf)
+  [look at or download pdf](Vi.pdf)
 
   [download Openoffice Writer document](Vi.odt)
 
