@@ -14,22 +14,28 @@ In this repository you can find some short tutorials to get started with 2.11 BS
 
 **Adding a user**
 
-  [download pdf](AddUser.pdf)
+  [look at or download pdf](AddUser.pdf)
 
   [download Openoffice Writer document](AddUser.odt)
 
 **Using the text editor vi**
 
-  [download pdf](Vi.pdf)
+  [look at or download pdf(Vi.pdf)
 
   [download Openoffice Writer document](Vi.odt)
 
 
 **Compiling a C program**
 
-  [download pdf](CompileC.pdf)
+  [look at or download pdf](CompileC.pdf)
 
   [download Openoffice Writer document](CompileC.odt)
+
+**Compiling a Pascal program**
+
+  [look at or download pdf](Pascal.pdf)
+
+  [download Openoffice Writer document](Pascal.odt)
 
 
 For questions and proposals for changes and additions please contact r77@bluewin.ch
