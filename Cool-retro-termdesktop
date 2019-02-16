@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Exec=/home/pi/cool-retro-term/cool-retro-term --fullscreen
+Name=Cool-retro-term
+GenericName=Cool-retro-term
+Comment=Cool-retro-term
+Encoding=UTF-8
+Terminal=false
+Type=Application
+Categories=Accessories;
+X-KeepTerminal=true
+Icon=computer
+Path=/home/pi/cool-retro-term

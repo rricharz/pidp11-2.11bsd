@@ -12,6 +12,12 @@ One of the available historical Unix systems included is [2.11BSD](https://en.wi
 
 In this repository you can find some short tutorials to get started with 2.11 BSD.
 
+Below is a picture of using
+[cool-retro-term](https://github.com/Swordfish90/cool-retro-term)
+(installation instructions below) with PiDP-11.
+
+![Alt text](Cool.jpg?raw=true "cool-retro-term")
+
 **Adding a user**
 
   [look at or download pdf](AddUser.pdf)
@@ -36,6 +42,13 @@ In this repository you can find some short tutorials to get started with 2.11 BS
   [look at or download pdf](Pascal.pdf)
 
   [download Openoffice Writer document](Pascal.odt)
+
+**Installing and using cool-retro-term on Raspbian**
+
+  [look at or download pdf](Cool.pdf)
+
+  [download Openoffice Writer document](Cool.odt)
+
 
 
 For questions and proposals for changes and additions please contact r77@bluewin.ch
