@@ -52,7 +52,7 @@ Below is a picture of using
 
 **octal - An example written in Berkeley C**
 
-  [look at or download readme.txt](octal/readme.txt`)
+  [look at or download readme.txt](octal/readme.txt)
 
 
 
