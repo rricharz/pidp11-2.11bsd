@@ -50,6 +50,10 @@ Below is a picture of using
 
   [download Openoffice Writer document](Cool.odt)
 
+**octal - An example written in Berkeley C**
+
+  [look at or download readme.txt](octal/readme.txt`)
+
 
 
 For questions and proposals for changes and additions please contact r77@bluewin.ch
