@@ -44,6 +44,12 @@ Below is a picture of using
 
   [download Openoffice Writer document](Pascal.odt)
 
+**Setting date and time automatically during bootup**
+
+  [look at or download pdf](DateAndTime.pdf)
+
+  [download Openoffice Writer document](DateAndTime.odt)
+
 **Installing and using cool-retro-term on Raspbian**
 
   [look at or download pdf](Cool.pdf)
