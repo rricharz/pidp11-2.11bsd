@@ -31,6 +31,13 @@ Below is a picture of using
 
   [download Openoffice Writer document](Vi.odt)
 
+If you do not like working with vi, there are alternatives. If you access your
+system from a laptop, and have the internet working on 2.11BSD, you can use
+FileZilla on your laptop (Windows, OSX, Linux or Raspbian) to transfer and edit
+files. This allows using your favorite editor. I am in the process of writing a
+small tutorial on how to set up FileZilla and how to edit files on the remote
+system directly.
+
 
 **Compiling a C program**
 

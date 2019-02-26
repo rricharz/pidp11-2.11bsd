@@ -46,7 +46,7 @@ Install this program in your ~/bin folder:
 
     mkdir ~/bin
 
-  Then install octal
+  Then install calc
 
     make install
 
