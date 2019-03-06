@@ -73,6 +73,13 @@ files. This allows using your favorite editor.
 
   [calc calculator and base converter](calc/readme.txt)
 
+**Using rsh to run a command on a remote Raspberry Pi**
+
+  [look at or download pdf](Rsh.pdf)
+
+  [download Openoffice Writer document](Rsh.odt)
+
+
 
 
 For questions, bug reports and proposals for changes and additions please contact r77@bluewin.ch
