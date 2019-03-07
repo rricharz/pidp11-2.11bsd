@@ -79,6 +79,12 @@ files. This allows using your favorite editor.
 
   [download Openoffice Writer document](Rsh.odt)
 
+**A cool-weather-station**
+
+  [look at or download pdf](Weather.pdf)
+
+  [download Openoffice Writer document](Weather.odt)
+
 
 
 
