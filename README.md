@@ -79,7 +79,7 @@ files. This allows using your favorite editor.
 
   [download Openoffice Writer document](Rsh.odt)
 
-**A cool-weather-station**
+**A cool-retro-weatherstation**
 
   [look at or download pdf](Weather.pdf)
 
