@@ -233,7 +233,7 @@ char *argv[];
            strftime(ctime,MAXL,"%H:%M",timeinfo);
            strftime(cdate,MAXL,"%Y%m%d",timeinfo);
 
-           printf("The sensor reports the following data:\n");
+           printf("The sensor reports the following data at %s:\n",ctime);
            if (T>-273.0)
                printf(" Temperature  %0.1f C\n",T);
            if (P>=0.0)
@@ -267,7 +267,13 @@ char *argv[];
            printf("Cannot obtain data from remote sensor\n");
         }
         printf("Sleeping 60 seconds, type <ctrl>c to abort\n");
-        sleep(60);
+        for (i=0; i<60; i++) {
+            putchar('.');
+            fflush(stdout);
+            sleep(1);
+        }
+        printf("\n");
+
     }
     while (1);           
 }
