@@ -23,13 +23,11 @@ Below is a picture of using
 
   [look at or download pdf](AddUser.pdf)
 
-  [download Openoffice Writer document](AddUser.odt)
 
 **Using the text editor vi**
 
   [look at or download pdf](Vi.pdf)
 
-  [download Openoffice Writer document](Vi.odt)
 
 **Using your favorite editor on your laptop**
 
@@ -40,32 +38,26 @@ files. This allows using your favorite editor.
 
   [look at or download pdf](FileZilla.pdf)
 
-  [download Openoffice Writer document](FileZilla.odt)
-
 
 **Compiling a C program**
 
   [look at or download pdf](CompileC.pdf)
 
-  [download Openoffice Writer document](CompileC.odt)
 
 **Compiling a Pascal program**
 
   [look at or download pdf](Pascal.pdf)
 
-  [download Openoffice Writer document](Pascal.odt)
 
 **Setting date and time automatically during bootup**
 
   [look at or download pdf](DateAndTime.pdf)
 
-  [download Openoffice Writer document](DateAndTime.odt)
 
 **Installing and using cool-retro-term on Raspbian**
 
   [look at or download pdf](Cool.pdf)
 
-  [download Openoffice Writer document](Cool.odt)
 
 **Examples written in Berkeley C**
 
@@ -77,15 +69,16 @@ files. This allows using your favorite editor.
 
   [look at or download pdf](Rsh.pdf)
 
-  [download Openoffice Writer document](Rsh.odt)
 
 **A cool-retro-weatherstation**
 
   [look at or download pdf](Weather.pdf)
 
-  [download Openoffice Writer document](Weather.odt)
+
+**Printing to a networked printer**
+
+  [look at or download pdf](Printing.pdf)
 
 
-
-
-For questions, bug reports and proposals for changes and additions please contact r77@bluewin.ch
+For questions, bug reports and proposals for changes and additions please contact r77@bluewin.ch.
+Your opinion is very important for me.
