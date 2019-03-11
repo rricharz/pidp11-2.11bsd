@@ -1,2 +1,10 @@
 #!/bin/csh
-todos <$1 | lpr
+# prints file defined in first argument
+# or from stdin for piping
+# the data is first filtered through todos
+#
+if ( "$1" == "" ) then
+    todos | lpr
+else
+    todos <$1 | lpr
+endif
