@@ -75,6 +75,10 @@ files. This allows using your favorite editor.
   [look at or download pdf](Weather.pdf)
 
 
+**Doing nice vector graphics on a Tektronix 4010**
+
+  [look at or download pdf](Tek.pdf)
+
 **Printing to a networked printer**
 
   [look at or download pdf](Printing.pdf)
