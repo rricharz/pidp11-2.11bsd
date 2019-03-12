@@ -1,10 +1,10 @@
 /*
-  weather2.c 
+  weather3.c 
   a cool-retro weather station
   on PiPD11 using 2.11BSD Unix
   2019  rricharz
 
-  This version displays new data every 60 seconds
+  This version uses curses
 */
 
 #include <stdio.h>
@@ -12,13 +12,12 @@
 #include <strings.h>
 #include <unistd.h>
 #include <time.h>
+#include <curses.h>
 
 #define MAXL    80  /* maximum line length of input file */
 
 #define	COLUMNS	80
-#define	ROWS	10
-
-char matrix[ROWS][COLUMNS];    /* holds the characters to be displayed */
+#define	ROWS	23
 
 void stampChar(ch,column,row)
 char ch;
@@ -103,8 +102,8 @@ int column,row;
                      stamp[2]="     ";
                      stamp[3]="     ";
                      stamp[4]="     ";
-                     stamp[5]="     ";
-                     stamp[6]="  *  ";; break;
+                     stamp[5]="  _  ";
+                     stamp[6]=" |_| "; break;
            case '-': stamp[0]="     ";
                      stamp[1]="     ";
                      stamp[2]="     ";
@@ -119,6 +118,20 @@ int column,row;
                      stamp[4]=" /   ";
                      stamp[5]="/  _ ";
                      stamp[6]="  |_|";; break;
+           case '@': stamp[0]="   _ ";
+                     stamp[1]="  |_|";
+                     stamp[2]="     ";
+                     stamp[3]="     ";
+                     stamp[4]="     ";
+                     stamp[5]="     ";
+                     stamp[6]="     "; break;
+           case ':': stamp[0]="     ";
+                     stamp[1]="     ";
+                     stamp[2]="  _  ";
+                     stamp[3]=" |_| ";
+		     stamp[4]="     ";
+                     stamp[5]="  _  ";
+                     stamp[6]=" |_| "; break;
            case 'C': stamp[0]=" ___ ";
                      stamp[1]="/   \\";
                      stamp[2]="|    ";
@@ -126,13 +139,27 @@ int column,row;
                      stamp[4]="|    ";
                      stamp[5]="|    ";
                      stamp[6]="\\___/"; break;
-           case 'd': stamp[0]="   _ ";
-                     stamp[1]="  |_|";
-                     stamp[2]="     ";
-                     stamp[3]="     ";
-                     stamp[4]="     ";
-                     stamp[5]="     ";
-                     stamp[6]="     "; break;
+           case 'P': stamp[0]="____ ";
+                     stamp[1]="|   \\";
+                     stamp[2]="|   |";
+                     stamp[3]="|__/ ";
+                     stamp[4]="|    ";
+                     stamp[5]="|    ";
+                     stamp[6]="|    "; break;
+           case 'a': stamp[0]="     ";
+                     stamp[1]="     ";
+                     stamp[2]=" ___ ";
+                     stamp[3]="/   \\";
+                     stamp[4]=" ___|";
+                     stamp[5]="|   |";
+                     stamp[6]="\\___|"; break;
+           case 'h': stamp[0]="     ";
+                     stamp[1]="|    ";
+                     stamp[2]="| __ ";
+                     stamp[3]="|/  \\";
+                     stamp[4]="|   |";
+                     stamp[5]="|   |";
+                     stamp[6]="|   |"; break;
            default:  stamp[0]="     ";
                      stamp[1]="     ";
                      stamp[2]="     ";
@@ -140,50 +167,40 @@ int column,row;
                      stamp[4]="     ";
                      stamp[5]="     ";
                      stamp[6]="     "; break; 
-   }
+       }
 
-       for (i=0; i<7; i++)
-           for (j=0; j<5; j++)
-               matrix[row+i][column+j]=stamp[i][j];
+       for (i=0; i<7; i++) {
+           move(row+i,column);
+           addstr(stamp[i]);
+       }
 }
 
-void stampString(s)
+void stampString(s,y)
 char *s;
+int y;
 /* put a string into the matrix */
 {
-   int xstart;
    int i=0;
+   int pos=(COLUMNS-(strlen(s))*6)/2;
    if (strlen(s)<=12) {
-     xstart=COLUMNS/2-strlen(s)*3;
      while (s[i]!=0)
-       stampChar(s[i++],xstart+6*i,1);
+       stampChar(s[i++],pos+6*i,y);
    }
 }
 
-void showStamps()
-{
-    int i;
-    for (i=0; i<ROWS; i++) {
-      matrix[i][COLUMNS-1]=0;  /* terminate each string */
-      printf("%s\n",matrix[i]);
-    }   
-}
-
-void initStamps(s)
+void myBox(s)
 char *s;
 {
     int i,pos;
-    memset(matrix,' ',sizeof(matrix));
-    for (i=0; i<COLUMNS-1; i++) {
-        matrix[0][i]='=';
-        matrix[ROWS-1][i]='=';
+    for (i=0; i<COLUMNS; i++) {
+        move(0,i); addch('-');
+        move(ROWS-1,i); addch('-');
     }
     pos=(COLUMNS-strlen(s))/2;
-    for (i=0; i<strlen(s); i++)
-        matrix[0][pos+i]=s[i];
+    move(0,pos); addstr(s);
     for (i=1; i<ROWS-1; i++) {
-        matrix[i][0]='|';
-        matrix[i][COLUMNS-2]='|';
+        move(i,0); addch('|');
+        move(i,COLUMNS-1); addch('|');
     }
 }
      
@@ -200,16 +217,19 @@ char *argv[];
     time_t rawtime;
     struct tm *timeinfo;
 
+    initscr();
+
     do {
         T=-273.0;
         P=-1.0;
         H=-1.0;
 
-	printf("Contacting remote sensor...\n");
+        clear();
+        myBox("cool-retro-weatherstation");
+
         weatherData = popen(
             "rsh pizerow -l pi -n 'python ~/bin/bme280.py'", "r");
         if (weatherData != NULL) {
-           printf("Data received, analyzing ...\n");
            i=0;
            while (((ch=fgetc(weatherData))!=EOF) && (i<MAXL)){
                line[i++]=ch;
@@ -233,47 +253,34 @@ char *argv[];
            strftime(ctime,MAXL,"%H:%M",timeinfo);
            strftime(cdate,MAXL,"%Y%m%d",timeinfo);
 
-           printf("The sensor reports the following data at %s:\n",ctime);
-           if (T>-273.0)
-               printf(" Temperature  %0.1f C\n",T);
-           if (P>=0.0)
-               printf(" Pressure     %0.1f hPa\n",P);
-           if (H>=0.0)
-               printf(" Humidity     %0.0f %%\n",H);
-
-           if ((T>-273.0) && (H>=0.0)) {
+           if ((T>-273.0) && (H>=0.0) && (H>=0.0)) {
 
                strcat(strcpy(w1,getenv("HOME")),"/weather/data/");
                strcat(w1,cdate);
-               printf("Storing data in %s\n",w1);
                storage=fopen(w1,"a");
-               if (storage<0)
-                   printf("Cannot open data file\n");
-               else {
+               if (storage) {
                    fprintf(storage,"%s %0.1f %0.1f %0.1f\n",ctime,T,P,H);
                    fclose(storage);
                }
-
-               initStamps("cool-retro-weatherstation");
-               sprintf(w1,"%0.1fdC %d%%",T,(int)H);
-               stampString(w1);
-               showStamps();
-
+               else {
+                   move(ROWS-2,2); addstr("Cannot store data!");
+               }
+               sprintf(w1,"%0.1f@C %0.0f%%",T,H);
+               stampString(w1,2);
+	       sprintf(w1,"%0.0fhPa %s%",P,ctime);
+               stampString(w1,12);
+               move(ROWS,0);
+               refresh();
            }
-           else
-               printf("Data received does not contain weather info\n"); 
+           else {
+             move(ROWS-2,2); addstr("No weather info in data received!");
+	   }
         }
-        else {
-           printf("Cannot obtain data from remote sensor\n");
-        }
-        printf("Sleeping 60 seconds, type <ctrl>c to abort\n");
-        for (i=0; i<60; i++) {
-            putchar('.');
-            fflush(stdout);
-            sleep(1);
-        }
-        printf("\n");
-
+	else {
+             move(ROWS-2,2); addstr("No data obtained from remote sensor!");
+	}
+        sleep(60);
     }
-    while (1);           
+    while (1);
+    endwin();          
 }
