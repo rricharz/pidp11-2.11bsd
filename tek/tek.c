@@ -52,6 +52,7 @@ int argc;
 char *argv[];
 {
     int i,s,step;
+    printf("This program requires a Tektronix terminal!\n");
     clearScreen();
     for (i=0; i<MAXY; i+=10)
       drawVector(0,i,MAXX,MAXY-i);

@@ -1,6 +1,6 @@
 MYBIN="${HOME}/bin"
 
-all: tek thome
+all: tek thome graph
 
 tek: tek.c
 	cc -o tek tek.c
@@ -8,5 +8,6 @@ tek: tek.c
 thome: thome.c
 	cc -o thome thome.c
 
-install:
-	cp tek $(HOME)/bin; cp thome $(HOME)/bin
+graph: graph.c
+	cc -o graph graph.c
+
