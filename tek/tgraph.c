@@ -128,7 +128,7 @@ char *argv[];
 
            /* rewind, then read and display data */
            rewind(f);
-           first=0;
+           first=1;
            while (fscanf(f,"%d:%d %f %f %f\n", &t1, &t2, &T, &P, &H)!=EOF) {
                /* scale values */
                time=60*t1+t2;
@@ -142,7 +142,7 @@ char *argv[];
                    lasttimevalue=timevalue;
                    lastvalue=value;
                }
-               if (time-lasttime<=2)
+               else if (time-lasttime<=2)
                    drawVector(minGX+lasttimevalue,minGY+lastvalue,
                                          minGX+timevalue,minGY+value);
                else /* no measurements done between last and current time */
