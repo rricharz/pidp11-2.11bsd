@@ -13,11 +13,19 @@
 #include <unistd.h>
 #include <time.h>
 #include <curses.h>
+#include <signal.h>
 
 #define MAXL    80  /* maximum line length of input file */
 
 #define	COLUMNS	80
 #define	ROWS	23
+
+static int keepRunning;
+
+void intHandler(dummy)    /* catch <ctrl>c */
+{
+   keepRunning=0;
+}
 
 void stampChar(ch,column,row)
 char ch;
@@ -217,6 +225,9 @@ char *argv[];
     time_t rawtime;
     struct tm *timeinfo;
 
+    keepRunning = 1;
+    signal(SIGINT,intHandler);  /* catch <ctrl>c */
+
     initscr();
 
     do {
@@ -270,7 +281,6 @@ char *argv[];
 	       sprintf(w1,"%0.0fhPa %s%",P,ctime);
                stampString(w1,12);
                move(ROWS,0);
-               refresh();
            }
            else {
              move(ROWS-2,2); addstr("No weather info in data received!");
@@ -279,8 +289,11 @@ char *argv[];
 	else {
              move(ROWS-2,2); addstr("No data obtained from remote sensor!");
 	}
+        move(ROWS,0); addstr("Type <ctrl>c to exit ");
+        refresh();
         sleep(60);
     }
-    while (1);
-    endwin();          
+    while (keepRunning);
+    endwin();
+    printf("\n");         
 }

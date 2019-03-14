@@ -7,7 +7,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
+#include <string.h>
 #include "tekio.h"
+
+static int keepRunning;
+
+void intHandler(dummy)    /* catch <ctrl>c */
+{
+   keepRunning=0;
+}
 
 int minGX;		/* Coordinates of graphic box */
 int maxGX;
@@ -48,7 +57,7 @@ int min,max;
         xpos=(int)((double)(val-min)*(double)(maxGX-minGX)
                              /(double)(max-min) + (double)minGX);
         drawVector(xpos,minGY-20,xpos,minGY-1);
-        moveTo(xpos-32,0);
+        moveTo(xpos-32,minGY-40);
         printf("%2d:%02d",val/60,val%60);
     }
 }
@@ -60,86 +69,104 @@ char *argv[];
     FILE *f;
     char *fname;
 
-    double maxTemp = -273.0;
-    double minTemp =  200.0;
-    int maxTime = 0;
-    int minTime = 24*60;
+    double maxTemp;
+    double minTemp;
+    int maxTime;
+    int minTime;
 
     int i,time,t1,t2,timevalue,value,first,lasttimevalue,lastvalue,lasttime;
     double T,P,H;
 
     minGX=80;
     maxGX=MAXX-40;
-    minGY=50;
+    minGY=70;
     maxGY=MAXY-50;
 
     printf("This program requires a Tektronix terminal!\n");
+
+    keepRunning = 1;
+    signal(SIGINT,intHandler);  /* catch <ctrl>c */
+
     if (argc!=2) {
-        printf("Usage: graph filename\n");
+        printf("Usage: graph [-l] filename\n");
         exit(1);
     }
-    fname=argv[1];
+    fname=argv[argc-1];
 
-    /* clear screen and draw a box */
-    clearScreen();
+    do {
+
+        /* clear screen and draw a box */
+        clearScreen();
+
+        maxTemp = -273.0;
+        minTemp =  200.0;
+        maxTime = 0;
+        minTime = 24*60;
     
-    printf("             Temperature data from %s\n",fname);
-    drawVector(minGX,minGY,maxGX,minGY);
-    drawVector(maxGX,minGY,maxGX,maxGY);
-    drawVector(maxGX,maxGY,minGX,maxGY);
-    drawVector(minGX,maxGY,minGX,minGY);
+        printf("             Temperature data from %s\n",fname);
+        drawVector(minGX,minGY,maxGX,minGY);
+        drawVector(maxGX,minGY,maxGX,maxGY);
+        drawVector(maxGX,maxGY,minGX,maxGY);
+        drawVector(minGX,maxGY,minGX,minGY);
 
-    if (f=fopen(fname,"r")) {
+        if (f=fopen(fname,"r")) {
 
-       /* first read maxima and minima for limits of graph */
-       while (fscanf(f,"%d:%d %f %f %f\n", &t1, &t2, &T, &P, &H)!=EOF) {
-           time=60*t1+t2;
-           if (time>maxTime) maxTime=time;
-           if (time<minTime) minTime=time;
-           if (T>maxTemp) maxTemp=T;
-           if (T<minTemp) minTemp=T;
-       }
-       if (maxTemp<=minTemp) maxTemp=minTemp+0.2;
-       if (maxTime<=minTime) maxTime=minTime+10;
+           /* first read maxima and minima for limits of graph */
+           while (fscanf(f,"%d:%d %f %f %f\n", &t1, &t2, &T, &P, &H)!=EOF) {
+               time=60*t1+t2;
+               if (time>maxTime) maxTime=time;
+               if (time<minTime) minTime=time;
+               if (T>maxTemp) maxTemp=T;
+               if (T<minTemp) minTemp=T;
+           }
+           if (maxTemp<=minTemp) maxTemp=minTemp+0.2;
+           if (maxTime<=minTime) maxTime=minTime+10;
 
-       /* display axes */
-       yAxis(minTemp,maxTemp);
-       xAxis(minTime,maxTime);
+           /* display axes */
+           yAxis(minTemp,maxTemp);
+           xAxis(minTime,maxTime);
 
-       /* rewind, then read and display data */
-       rewind(f);
-       first=0;
-       while (fscanf(f,"%d:%d %f %f %f\n", &t1, &t2, &T, &P, &H)!=EOF) {
-           /* scale values */
-           time=60*t1+t2;
-           timevalue=(int)((double)(60*t1+t2-minTime)*(double)(maxGX-minGX)
+           /* rewind, then read and display data */
+           rewind(f);
+           first=0;
+           while (fscanf(f,"%d:%d %f %f %f\n", &t1, &t2, &T, &P, &H)!=EOF) {
+               /* scale values */
+               time=60*t1+t2;
+               timevalue=(int)((double)(60*t1+t2-minTime)*(double)(maxGX-minGX)
                                            /(double)(maxTime-minTime));
-           value=(int)((double)(T-minTemp)*(double)(maxGY-minGY)
+               value=(int)((double)(T-minTemp)*(double)(maxGY-minGY)
                                            /(double)(maxTemp-minTemp));
-           if (first) {
-               first=0;
+               if (first) {
+                   first=0;
+                   lasttime=time;
+                   lasttimevalue=timevalue;
+                   lastvalue=value;
+               }
+               if (time-lasttime<=2)
+                   drawVector(minGX+lasttimevalue,minGY+lastvalue,
+                                         minGX+timevalue,minGY+value);
+               else /* no measurements done between last and current time */
+                   drawVector(minGX+timevalue,minGY+value,
+                                         minGX+timevalue,minGY+value);
                lasttime=time;
                lasttimevalue=timevalue;
                lastvalue=value;
            }
-           if (time-lasttime<=2)
-               drawVector(minGX+lasttimevalue,minGY+lastvalue,
-                                         minGX+timevalue,minGY+value);
-           else /* no measurements done between last and current time */
-               drawVector(minGX+timevalue,minGY+value,
-                                         minGX+timevalue,minGY+value);
-           lasttime=time;
-           lasttimevalue=timevalue;
-           lastvalue=value;
-       }
-       fclose(f);
-    }
+           fclose(f);
+           moveTo(0,0);
+           printf("Type <ctrl>c to clear screen and exit");
+           fflush(stdout);
+        }
 
-    else {
-      printf("Cannot open data file %s\n",fname);
-      exit(1);
+        else {
+          printf("Cannot open data file %s\n",fname);
+          keepRunning=0;
+          exit(1);
+        }
+        sleep(120);
     }
+    while (keepRunning);
   
-    endScreen();
+    clearScreen();
     exit(0);  
 }
