@@ -7,66 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#define MAXX 1023	/* Tektronix graphics screen size */
-#define MAXY 780
-#define MAXCH 74        /* Tektronix alpha screen size */
+#include "tekio.h"
 
 int minGX;		/* Coordinates of graphic box */
 int maxGX;
 int minGY;
 int maxGY;
-
-
-void sendX(x)
-int x;
-{
-    putchar((x >> 5) + 32);
-    putchar((x & 31) + 64);
-}
-
-void sendY(y)
-int y;
-{
-    putchar((y >> 5) + 32);
-    putchar((y & 31) + 96);
-}
-
-void moveTo(x,y)
-int x,y;
-{
-    int i,pos;
-    putchar(29);
-    sendY(y);
-    sendX(0);
-    putchar(13);
-    pos=(int)((double)x*(double)MAXCH/(double)MAXX);
-    for (i=0; i<pos;i++) putchar(' ');
-}
-
-void drawVector(x1,y1,x2,y2)
-int x1,y1,x2,y2;
-{
-    putchar(29);
-    sendY(y1);
-    sendX(x1);
-    sendY(y2);
-    sendX(x2);
-    putchar(13);
-}
-
-void clearScreen()
-{
-    putchar(27);
-    putchar(12);
-}
-
-void endScreen()
-{
-    moveTo(0,0);
-    getchar();
-    clearScreen();
-}
 
 void yAxis(min,max)
 double min,max;
@@ -102,7 +48,7 @@ int min,max;
         xpos=(int)((double)(val-min)*(double)(maxGX-minGX)
                              /(double)(max-min) + (double)minGX);
         drawVector(xpos,minGY-20,xpos,minGY-1);
-        moveTo(xpos-30,0);
+        moveTo(xpos-32,0);
         printf("%2d:%02d",val/60,val%60);
     }
 }

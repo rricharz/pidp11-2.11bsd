@@ -8,6 +8,7 @@
 /*  rricharz 2019 for 2.11BSD Unix on PiDP-11	*/
 /*  Uses Berkley C syntax!			*/
 
+
 long scanstr(str)
 char* str;
 {
