@@ -29,15 +29,21 @@ double min,max;
     double first,step,val,start;
     int ypos;
     step=1.0;
-    while (((max-min)/step)>8) step=2*step;
-    while (((max-min)/step)<4) step=step/2;
+    while (((max-min)/step)>8) step=2.0*step;
+    while (((max-min)/step)<4) {
+        step=step/2.0;
+        if ((step<0.3) && (step>0.2)) step=0.2;
+        }
     start=step*(double)((int)(min/step+1.001));
     for (val=start; val<max; val=val+step) {
         ypos=(int)((double)(val-min)*(double)(maxGY-minGY)
                              /(double)(max-min)+(double)minGY);
         drawVector(minGX-20,ypos,minGX-1,ypos);
         moveTo(0, ypos-8);
-        printf("%0.1f",val);
+        if (step > 0.1)
+          printf("%0.1f",val);
+        else
+          printf("%0.2f",val);
     }
 }
 
