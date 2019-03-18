@@ -1,6 +1,6 @@
 # pidp11-2.11bsd
 
-Using the historical Unix 2.11BSC operating system on the pidp-11
+Using the historical Unix 2.11 BSD operating system on the pidp-11
 
 The [pidp11](http://obsolescence.wixsite.com/obsolescence/pidp-11) is a replica of the
 historical [PDP-11](http://pdp-11.nl), using a Raspberry Pi and the emulator
@@ -9,7 +9,7 @@ for this very interesting kit.
 
 ![Alt text](pidp11.jpg?raw=true "pidp11")
 
-One of the available historical Unix systems included is [2.11BSD](https://en.wikipedia.org/wiki/Berkeley_Software_Distribution).
+One of the available historical Unix systems included is [2.11 BSD](https://en.wikipedia.org/wiki/Berkeley_Software_Distribution).
 
 In this repository you can find some short tutorials to get started with 2.11 BSD.
 
@@ -32,7 +32,7 @@ Below is a picture of using
 **Using your favorite editor on your laptop**
 
 If you do not like working with vi, there are alternatives. If you access your
-system from a laptop, and have networking set up on 2.11BSD, you can use
+system from a laptop, and have networking set up on 2.11 BSD, you can use
 FileZilla on your laptop (Windows, OSX, Linux or Raspbian) to transfer and edit
 files. This allows using your favorite editor.
 
