@@ -39,23 +39,21 @@
 #define COL1 7
 #define COL2 6
 
-#define MINDELAY 200	   // Minimum blink DELAY in MSEC, do not make too short!
-#define MAXDELAY 2000	   // Maximum blink DELAY in MSEC
-
-int toggleState     = 0;
 int serverWasRunning = 1;   // makes sure that cpio pins are reset for first usage
 
-void toggle()
-// toggle the leds once
+int blinkForOneSecond(int usage)
+// blink for one second, rate based on usage
 {
-    pinMode(ROW, OUTPUT);
-    pinMode(COL1, OUTPUT);
-    pinMode(COL2, OUTPUT);
-    digitalWrite(ROW,1);
-    digitalWrite(COL1, toggleState);
-    toggleState = !toggleState;
-    digitalWrite(COL2, toggleState);
-
+    int n = (usage / 10) + 1;
+    int d = 500 / n;
+    for (int i = 0; i < n; i++) {
+        digitalWrite(COL1, 1);
+        digitalWrite(COL2, 0);
+        delay(d);
+        digitalWrite(COL1, 0);
+        digitalWrite(COL2, 1);
+        delay(d);
+    }
 }
 
 void resetPiDP11Gpios()
@@ -117,11 +115,13 @@ int main (int argc, char **argv)
 
 	    if (serverWasRunning) {
 		resetPiDP11Gpios();
+                pinMode(ROW, OUTPUT);
+                pinMode(COL1, OUTPUT);
+                pinMode(COL2, OUTPUT);
+                digitalWrite(ROW,1);
 		serverWasRunning = 0;
 	    }
 
-	    toggle();  // to be done asap after testing for pidp11.sh !
-                
 	    size = read(fd, buf, sizeof(buf));
 	    if(size > 0) {
 
@@ -148,11 +148,12 @@ int main (int argc, char **argv)
 
 	    lseek(fd, 0, SEEK_SET);
                     
-	    delay(MINDELAY + (MAXDELAY-MINDELAY) / usage);               
+	    blinkForOneSecond((int)usage);               
 	}
 	else {
+	    if (!serverWasRunning) resetPiDP11Gpios();
 	    serverWasRunning = 1;
-	    delay(MAXDELAY);
+	    delay(1000);
 	}
     }
     while (1); // this is a daemon, loop until killed
