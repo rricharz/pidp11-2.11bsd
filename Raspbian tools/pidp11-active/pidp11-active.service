@@ -1,0 +1,7 @@
+[Unit]
+Description=blink parity leds on PiDP11
+[Service]
+ExecStart=/usr/bin/pidp11-active
+ExecStop=/bin/systemctl kill pidp11-active
+[Install]
+WantedBy=multi-user.target

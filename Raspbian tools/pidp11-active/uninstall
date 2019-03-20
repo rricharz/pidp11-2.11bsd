@@ -1,0 +1,19 @@
+# uninstall pidp11-active
+# must be run as administrator, e.g. "sudo ./uninstall"
+
+# Make sure only root can run the script
+if [ "$(id -u)" != "0" ]; then
+   echo '"install" must be run by root, e.g. "sudo ./install"' 1>&2
+   exit 1
+fi
+
+echo "turning pidp11-active.service off"
+systemctl disable pidp11-active.service
+
+echo "removing pidp11-active from /usr/bin"
+rm /usr/bin/pidp11-active
+
+echo "removing pidp11-active service"
+rm /lib/systemd/system/pidp11-active.service
+
+echo "pidp11-active uninstalled"

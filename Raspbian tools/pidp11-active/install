@@ -1,0 +1,26 @@
+# install pidp11-active
+# must be run as root, e.g. "sudo ./install"
+
+# Make sure only root can run the script
+if [ "$(id -u)" != "0" ]; then
+   echo '"install" must be run by root, e.g. "sudo ./install"' 1>&2
+   exit 1
+fi
+
+echo "turning off pidp11-active.service, if running (upgrade instead of installation)"
+systemctl disable pidp11-active.service
+pkill pidp11-active
+
+echo "copy the file to /usr/bin"
+cp pidp11-active /usr/bin
+
+echo "making it executable"
+chmod +x /usr/bin/pidp11-active
+
+echo "installing pidp11-active service"
+cp pidp11-active.service /lib/systemd/system
+cd /lib/systemd/system
+systemctl enable pidp11-active.service
+systemctl start pidp11-active.service
+
+echo "pidp11-active installed"
