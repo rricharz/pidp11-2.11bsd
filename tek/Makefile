@@ -1,6 +1,6 @@
 MYBIN="${HOME}/bin"
 
-all: tek thome tgraph
+all: tek thome tgraph testPlotlib
 
 tek: tek.c tekio.c tekio.h
 	cc -o tek tek.c tekio.c
@@ -10,6 +10,10 @@ thome: thome.c
 
 tgraph: tgraph.c tekio.c tekio.h
 	cc -o tgraph tgraph.c tekio.c
+
+testPlotlib: testPlotlib.c
+	cc -o testPlotlib testPlotlib.c -l4013 -lm
+
 install:
 	cp tek ${MYBIN}; cp thome ${MYBIN}; cp tgraph ${MYBIN}
 
