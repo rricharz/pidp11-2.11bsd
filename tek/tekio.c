@@ -27,8 +27,6 @@ int x,y;
     sendY(y);
     sendX(x);
     putchar(31);
-    /*pos=(int)((double)x*(double)MAXCH/(double)MAXX);
-    for (i=0; i<pos;i++) putchar(' ');*/
 }
 
 void drawVector(x1,y1,x2,y2)
