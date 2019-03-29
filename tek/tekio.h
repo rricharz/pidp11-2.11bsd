@@ -6,7 +6,7 @@
 /*  login from a Tektronix terminal or emulator	*/
 
 #define MAXX 1023	/* Tektronix graphics screen size */
-#define MAXY  780
+#define MAXY  768
 #define MAXCH  74       /* Tektronix alpha screen size */
 
 extern void moveTo();

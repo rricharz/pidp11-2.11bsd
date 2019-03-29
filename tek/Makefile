@@ -1,6 +1,6 @@
 MYBIN="${HOME}/bin"
 
-all: tek thome tgraph testPlotlib dodekagon
+all: tek thome tgraph test4010 test4014 dodekagon mathdemo
 
 tek: tek.c tekio.c tekio.h
 	cc -o tek tek.c tekio.c
@@ -14,9 +14,15 @@ tgraph: tgraph.c tekio.c tekio.h
 dodekagon: tekio.h tekio.c dodekagon.c
 	cc -o dodekagon dodekagon.c tekio.c -lm
 
-testPlotlib: testPlotlib.c
-	cc -o testPlotlib testPlotlib.c -l4013 -lm
+mathdemo: mathdemo.c tekio.h tekio.c
+	cc -o mathdemo mathdemo.c tekio.c -lm
+
+test4010: test4010.c
+	cc -o test4010 test4010.c -l4013 -lm
+
+test4014: test4014.c
+	cc -o test4014 test4014.c -l4014 -lm
 
 install:
-	cp tek ${MYBIN}; cp thome ${MYBIN}; cp tgraph ${MYBIN}
+	cp tek ${MYBIN}; cp thome ${MYBIN}; cp tgraph ${MYBIN}; cp dodekagon ${MYBIN}
 

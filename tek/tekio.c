@@ -50,5 +50,4 @@ void endScreen()
 {
     moveTo(0,0);
     getchar();
-    clearScreen();
 }
