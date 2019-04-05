@@ -33,6 +33,6 @@ char *argv[];
 		y1 = y2;
 	}
 
-    	moveTo(10,10);
+    	moveAlpha(35,0);
     	exit(0);  
 }

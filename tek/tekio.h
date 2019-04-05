@@ -1,15 +1,60 @@
 /*  tecio.h 2.11 BSD Tektronix graphics 	*/
-/*  minimal io functions for Tektronix 4010     */
-/*  rricharz 2019 for 2.11BSD Unix on PiDP-11	*/
-/*  Uses Berkley C syntax!			*/
+/*  io functions for Tektronix 4010             */
+/*  For 2.11BSD Unix on PiDP-11	                */
+/*  cc 2019 rricharz                            */
+/*  Uses Berkley C syntax			*/
 /*  If you want to use this, you need to	*/
 /*  login from a Tektronix terminal or emulator	*/
+/*  See https://github.com/rricharz/Tek4010     */
 
 #define MAXX 1023	/* Tektronix graphics screen size */
-#define MAXY  768
-#define MAXCH  74       /* Tektronix alpha screen size */
+#define MAXY  780
 
-extern void moveTo();
-extern void drawVector();
-extern void clearScreen();
-extern void endScreen();
+#define MAXCOLUMNS  74  /* Tektronix alpha screen size */
+#define MAXLINES    35 
+
+/*                                              */
+/*  clear screen with                           */
+/*     clearScreen()                            */
+/*                                              */
+/*  draw individual vectors with                */
+/*     drawVector(x1,y1,x2,y2)                  */
+/*                                              */
+/*  draw a string using graphics coordinates    */
+/*     moveTo(x1,y1)                            */
+/*     printf(.....)                            */
+/*                                              */
+/*  draw a string using alpha coordinates       */
+/*     moveAlpha(line,column)                   */
+/*     printf(.....)                            */
+/*                                              */ 
+/*  fast draw multiple joint vectors            */
+/*     startDraw(x1,y1)                         */
+/*     draw(x2,y2)                              */
+/*     draw(x3,y3)                              */
+/*     .............                            */
+/*     endDraw()                                */
+/*                                              */
+/*  rectangle                                   */
+/*     drawRectange(x1,y1.x2.y2)                */
+/*                                              */
+/*  writethrough mode for short animations      */
+/*     startWriteThrough()                      */
+/*     endWriteThrough()                        */
+/*                                              */
+
+extern void drawVector(/* int x1, int y1, int x2, int y2 */);
+extern void moveTo(/* int 1x, int 1y */);
+extern void moveAlpha(/* int line, int column */);
+extern void clearScreen(/* void */);
+extern void startDraw(/* int 1x, int 1y */);
+extern void draw(/* int x2, int y2 */);
+extern void endDraw(/* void */);
+extern int startWriteThrough();
+extern int endWriteThrough();
+extern int drawRectangle();
+
+
+
+
+

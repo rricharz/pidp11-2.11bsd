@@ -24,6 +24,6 @@ char *argv[];
       drawVector(s,i,MAXX-s,i);
       drawVector(s,MAXY-i,MAXX-s,MAXY-i);
     }
-    moveTo(100,10);
+    moveAlpha(35,0);
     exit(0);  
 }

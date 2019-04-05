@@ -110,10 +110,7 @@ char *argv[];
         minTime = 24*60;
     
         printf("             Temperature data from %s\n",fname);
-        drawVector(minGX,minGY,maxGX,minGY);
-        drawVector(maxGX,minGY,maxGX,maxGY);
-        drawVector(maxGX,maxGY,minGX,maxGY);
-        drawVector(minGX,maxGY,minGX,minGY);
+        drawRectangle(minGX,minGY,maxGX,maxGY);
 
         if (f=fopen(fname,"r")) {
 
@@ -147,19 +144,22 @@ char *argv[];
                    lasttime=time;
                    lasttimevalue=timevalue;
                    lastvalue=value;
+                   startDraw(minGX+lasttimevalue,minGY+lastvalue);
                }
                else if (time-lasttime<=2)
-                   drawVector(minGX+lasttimevalue,minGY+lastvalue,
-                                         minGX+timevalue,minGY+value);
-               else /* no measurements done between last and current time */
-                   drawVector(minGX+timevalue,minGY+value,
-                                         minGX+timevalue,minGY+value);
+                   draw(minGX+timevalue,minGY+value);
+               else {  /* no measurements done between last and current time */
+		   endDraw();
+		   startDraw(minGX+timevalue,minGY+value);
+                   draw(minGX+timevalue,minGY+value);
+	       }
                lasttime=time;
                lasttimevalue=timevalue;
                lastvalue=value;
            }
+           endDraw();
            fclose(f);
-           moveTo(0,0);
+           moveAlpha(35,0);
            printf("Type <ctrl>c to clear screen and exit");
            fflush(stdout);
         }
