@@ -7,6 +7,7 @@
 /*  login from a Tektronix terminal or emulator	*/
 /*  See https://github.com/rricharz/Tek4010     */
 
+#include <stdio.h>
 #include "tekio.h"
 
 static int xs,ys;
@@ -14,6 +15,10 @@ static int xs,ys;
 void startDraw(x1,y1)
 int x1,y1;
 {
+    if (x1 < 0) x1 = 0;
+    if (x1 >= MAXX) x1 = MAXX -1;
+    if (y1 < 0) y1 = 0;
+    if (y1 >= MAXY) y1 = MAXY - 1;
     putchar(29);
     putchar((y1 >> 5) + 32);
     putchar((y1 & 31) + 96);
@@ -27,6 +32,12 @@ extern void draw(x2,y2)
 int x2,y2;
 {
     int hxchange, lychange;
+
+    if (x2 < 0) x2 = 0;
+    if (x2 >= MAXX) x2 = MAXX -1;
+    if (y2 < 0) y2 = 0;
+    if (y2 >= MAXY) y2 = MAXY - 1;
+
     if ((y2 >> 5) != (ys >> 5))        /* if high y has changed */
 	putchar((y2 >> 5) + 32);
     hxchange = (x2 >> 5) != (xs >> 5);
@@ -42,15 +53,12 @@ int x2,y2;
 extern void endDraw()
 {
     putchar(31);
+    fflush(stdout);
 }
 
 void moveTo(x1,y1)
 int x1,y1;
 {
-    if (x1 < 0) x1 = 0;
-    if (x1 >= MAXX) x1 = MAXX -1;
-    if (y1 < 0) y1 = 0;
-    if (y1 >= MAXY) y1 = MAXY - 1;
     startDraw(x1,y1);
     endDraw();
 }
@@ -90,13 +98,15 @@ void clearScreen()
 extern int startWriteThrough()
 {
     putchar(27);
-    putchar('p');	
+    putchar('p');
+    fflush(stdout);	
 }
 
 extern int endWriteThrough()
 {
     putchar(27);
     putchar('`');
+    fflush(stdout);
 }
 
 int drawRectangle(x1,y1,x2,y2)
