@@ -66,14 +66,15 @@ int x1,y1;
 void moveAlpha(line, column)
 int line,column;
 {
-    int vDotsPerChar, hDotsPerChar;
+    int vDotsPerChar;
+    double hDotsPerChar;
     if (line < 1) line = 1;
     if (line > MAXLINES) line = MAXLINES;
     if (column < 1) column = 1;
     if (column > MAXCOLUMNS) column = MAXCOLUMNS;
-    hDotsPerChar  = MAXX / MAXCOLUMNS;
-    vDotsPerChar  = MAXY / MAXLINES;
-    moveTo((column - 1) * hDotsPerChar, MAXY - line * vDotsPerChar);
+    vDotsPerChar = MAXY / MAXLINES;
+    hDotsPerChar = (double)(MAXX)/(double)(MAXCOLUMNS);
+    moveTo((int)((double)(column - 1) * hDotsPerChar), MAXY - line * vDotsPerChar);
 }
 
 void drawVector(x1,y1,x2,y2)
