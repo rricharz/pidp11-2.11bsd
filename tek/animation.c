@@ -101,8 +101,10 @@ char *argv[];
     signal(SIGINT,intHandler);  /* catch <ctrl>c */
 
     clearScreen();
-    drawJustifiedText("A BOUNCING BALL on the PiDP-11", 11, 2);
-    drawJustifiedText("using a Tektronix 4014 terminal", 12, 2);
+    drawJustifiedText("A BOUNCING BALL on the PiDP-11", 10, 2);
+    drawJustifiedText("using a Tektronix 4014 terminal", 11, 2);
+    drawJustifiedText("demonstrates up to 4K graphics capabilities in the 1970's", 12, 2);
+
 
     drawJustifiedText("PiDP-11 by Oscar Vermeulen", 14, 2);
     drawJustifiedText("https://obsolescence.wixsite.com/obsolescence/pidp-11", 15, 2);
@@ -126,7 +128,7 @@ char *argv[];
     makePolygon(MAXVECTORS, (double)r);
 
     rc = 200;
-    px = 30; py = 30; mx = 10.0; my = 5.0;
+    px = 30; py = 30; mx = 20.0; my = 10.0;
 
     drawRectangle(0,0,MAXX-1,MAXY-1);
     drawRectangle(1,1,MAXX-2,MAXY-2);
@@ -183,10 +185,11 @@ char *argv[];
 		px = px + fix(mx);
 		py = py + fix(my);
 	}
+        printf("\007"); /* delay the tek4010a bit to give the PiDP-11 time to keep up */
         j++;
 
     }
-    while (keepRunning && (j < 1000));
+    while (keepRunning && (j < 500));
     endWriteThrough();
 
     if (!keepRunning) {
@@ -206,7 +209,7 @@ char *argv[];
     makePolygon(MAXVECTORS, (double)r);
 
     rc = 200;
-    px = 30; py = 30; mx = 6.0; my = 27.0;
+    px = 30; py = 450; mx = 16.0; my = 24.0;
 
     drawRectangle(0,0,MAXX-1,MAXY-1);
     drawRectangle(1,1,MAXX-2,MAXY-2);
@@ -265,12 +268,13 @@ char *argv[];
 	}
 
 	/* gravitation */
-        my -= 0.6;
+        my -= 0.5;
 
+        printf("\007"); /* delay the tek4010a bit to give the PiDP-11 time to keep up */
         j++;
 
     }
-    while (keepRunning && (j < 1000));
+    while (keepRunning && (j < 500));
     endWriteThrough();
 
     if (!keepRunning) {
@@ -290,7 +294,7 @@ char *argv[];
     makePolygon(MAXVECTORS, (double)r);
 
     rc = 320;
-    px = 450; py = 100; mx = 10.0; my = 6.0;
+    px = 450; py = 100; mx = 20.0; my = 12.0;
 
     drawRectangle(0,0,MAXX-1,MAXY-1);
     drawRectangle(1,1,MAXX-2,MAXY-2);
@@ -347,10 +351,11 @@ char *argv[];
 		px = px + fix(mx);
 		py = py + fix(my);
 	}
+        printf("\007"); /* delay the tek4010a bit to give the PiDP-11 time to keep up */
         j++;
 
     }
-    while (keepRunning && (j < 1000));
+    while (keepRunning && (j < 500));
     endWriteThrough();
 
     if (!keepRunning) {
@@ -429,12 +434,13 @@ char *argv[];
 	}
 
 	/* gravitation */
-        my -= 0.6;
+        my -= 1.0;
 
+        printf("\007"); /* delay the tek4010a bit to give the PiDP-11 time to keep up */
         j++;
 
     }
-    while (keepRunning && (j < 1000));
+    while (keepRunning && (j < 500));
     endWriteThrough();
 
     if (!keepRunning) {
@@ -455,7 +461,7 @@ char *argv[];
     makePolygon(MAXVECTORS, (double)r);
 
     rc = 200;
-    px = 250; py = 190; mx = 3; my = 6;
+    px = 250; py = 190; mx = 5; my = 11;
 
     drawRectangle(0,0,MAXX-1,MAXY-1);
     drawRectangle(1,1,MAXX-2,MAXY-2);
@@ -521,13 +527,14 @@ char *argv[];
         l = sqrt(rx * rx + ry * ry);
 	rx = rx / l;
 	ry = ry / l;
-	mx = mx + rx;
-        my = my + ry;
+	mx = mx + 2.0 * rx;
+        my = my + 2.0 * ry;
 
+        printf("\007"); /* delay the tek4010a bit to give the PiDP-11 time to keep up */
         j++;
 
     }
-    while (keepRunning && (j < 1000));
+    while (keepRunning && (j < 500));
     endWriteThrough();
 
     moveAlpha(2,1);
