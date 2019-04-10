@@ -13,7 +13,6 @@
 #include "tekio.h"
 
 #define MAXVECTORS 12		/* number of animated vectors */
-#define PI2 6.283185307		/* value of 2 pi */
 
 static int keepRunning;
 
@@ -44,41 +43,6 @@ double distanceSquared(x,y)
 {
 	return (double)(x - (MAXX / 2)) * (double)(x - (MAXX / 2)) +
      		(double)(y - (MAXY / 2)) * (double)(y - (MAXY / 2));
-}
-
-drawCircle(x,y,r)
-int x,y,r;
-{
-	int i;
-	double arg;
-    	startDraw((MAXX / 2) + r, (MAXY /2));
-    	for (i = 0; i <= r; i++) {
-        	arg = (double)(i) * PI2 / (double) r;
-		draw(x + (int)((double)r * cos(arg)), y + (int)((double)r * sin(arg)));
-    	}
-    	endDraw;
-}
-
-drawJustifiedText(s, line, justify)
-char *s; int line, justify;
-/* justify 0=left, 1=center; 2=right */
-{
-	int length;
-	length = strlen(s);
-	switch (justify) {
-		case 1: moveAlpha(line, 1); break;
-                case 2: moveAlpha(line, (MAXCOLUMNS - length) / 2); break;
-                case 3: moveAlpha(line, MAXCOLUMNS - length + 1); break;
-	}
-	printf(s);
-}
-
-int fix(r)
-double r;
-/* round double and convert to int */
-{
- 	if (r >= 0) return (int)(r + 0.5);
-	else return (int)(r - 0.5);
 }
 
 int main(argc, argv)

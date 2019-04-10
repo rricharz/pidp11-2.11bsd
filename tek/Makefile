@@ -1,21 +1,24 @@
 MYBIN="${HOME}/bin"
 
-all: tek thome tgraph test4010 test4014 dodekagon mathdemo animation
+all: tek thome tgraph test4010 test4014 dodekagon mathdemo mathdemo2 animation
 
 tek: tek.c tekio.c tekio.h
-	cc -o tek tek.c tekio.c
+	cc -o tek tek.c tekio.c -lm
 
 thome: thome.c
 	cc -o thome thome.c
 
 tgraph: tgraph.c tekio.c tekio.h
-	cc -o tgraph tgraph.c tekio.c
+	cc -o tgraph tgraph.c tekio.c -lm
 
 dodekagon: tekio.h tekio.c dodekagon.c
 	cc -o dodekagon dodekagon.c tekio.c -lm
 
 mathdemo: mathdemo.c tekio.h tekio.c
 	cc -o mathdemo mathdemo.c tekio.c -lm
+
+mathdemo2: mathdemo2.c tekio.h tekio.c
+	cc -o mathdemo2 mathdemo2.c tekio.c -lm
 
 test4010: test4010.c
 	cc -o test4010 test4010.c -l4013 -lm

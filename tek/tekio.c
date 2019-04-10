@@ -8,6 +8,7 @@
 /*  See https://github.com/rricharz/Tek4010     */
 
 #include <stdio.h>
+#include <math.h>
 #include "tekio.h"
 
 static int xs,ys;
@@ -120,4 +121,40 @@ int x1,y1,x2,y2;
     draw(x1,y1);
     endDraw();
 }
+
+drawCircle(x,y,r)
+int x,y,r;
+{
+	int i;
+	double arg;
+    	startDraw((MAXX / 2) + r, (MAXY /2));
+    	for (i = 0; i <= r; i++) {
+        	arg = (double)(i) * PI2 / (double) r;
+		draw(x + (int)((double)r * cos(arg)), y + (int)((double)r * sin(arg)));
+    	}
+    	endDraw;
+}
+
+drawJustifiedText(s, line, justify)
+char *s; int line, justify;
+/* justify 0=left, 1=center; 2=right */
+{
+	int length;
+	length = strlen(s);
+	switch (justify) {
+		case 1: moveAlpha(line, 1); break;
+                case 2: moveAlpha(line, (MAXCOLUMNS - length) / 2); break;
+                case 3: moveAlpha(line, MAXCOLUMNS - length + 1); break;
+	}
+	printf(s);
+}
+
+int fix(r)
+double r;
+/* round double and convert to int */
+{
+ 	if (r >= 0) return (int)(r + 0.5);
+	else return (int)(r - 0.5);
+}
+
 

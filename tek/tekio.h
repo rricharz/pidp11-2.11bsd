@@ -35,13 +35,20 @@
 /*     .............                            */
 /*     endDraw()                                */
 /*                                              */
-/*  rectangle                                   */
-/*     drawRectange(x1,y1.x2.y2)                */
+/*   drawRectange(x1,y1.x2.y2)                  */
+/*                                              */
+/*  drawCircle(x,y,r)                           */
+/*                                              */
+/* drawJustifiedText(s, line, justify)          */
+/* justify 0=left, 1=center; 2=right            */
 /*                                              */
 /*  writethrough mode for short animations      */
 /*     startWriteThrough()                      */
 /*     endWriteThrough()                        */
 /*                                              */
+
+#define PI  3.14159265
+#define PI2 6.28318531
 
 extern void drawVector(/* int x1, int y1, int x2, int y2 */);
 extern void moveTo(/* int 1x, int 1y */);
@@ -53,8 +60,9 @@ extern void endDraw(/* void */);
 extern int startWriteThrough();
 extern int endWriteThrough();
 extern int drawRectangle();
-
-
+extern drawCircle();
+extern drawJustifiedText();
+extern int fix();
 
 
 
