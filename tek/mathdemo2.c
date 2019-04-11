@@ -29,44 +29,66 @@ double x,y;
 /* The masking algorithm is crude. Hidden vectors should not be drawn	*/
 /* and partially hidden vectors require interpolated end points		*/
 
-void drawmasked(x1, y1, x2, y2)
-int x1, y1,x2, y2;
+void drawmasked(x1, y1, x2, y2, visible)
+int x1, y1,x2, y2, visible;
 {
-	int i, xa, xb, w;
-	int y1masked, y2masked;
-        double step, first;
+	int i, doDraw, start, vstart;
+	double step, v;
 
-	if (y1 >= mask[x1])
-		y1masked = y1;
-	else
-		y1masked = mask[x1];
-
-	if (y2 >= mask[x2])
-		y2masked = y2;
-	else
-		y2masked = mask[x2];
-
-	drawVector(x1, y1masked, x2, y2masked);
-
-        if (x2 >= x1) {
-		if ((x2 - x1) == 0) step = (double)(y2 - y1);
-		else step = (double)(y2 - y1) / (double)(x2 - x1);
-		first = (double)y1;
-		xa = x1;
-		xb = x2;
-	}
+        if (x2 == x1)
+		step = (double)(y2-y1);
 	else {
-		if ((x2 - x1) == 0) step = (double)(y2 - y1);
-		else step = (double)(y1 - y2) / (double)(x1 - x2);
-		first = (double)y2;
-		xa = x2;
-		xb = x1;
+		step = (double)(y2 - y1)/(double)(x2 - x1);
+		if ((x2 - x1) < 0) step = - step;
 	}
 
-	for (i = xa; i <= xb; i++) {
-			if (mask[i] < fix(first)) mask[i] = fix(first);
-			first += step;
+	doDraw = 0;
+	v = (double)y1;
+	start = x1;
+	vstart = y1;
+
+        for (i = x1; i < x2; i++) {		/* check mask for each point */
+		if (fix(v) <= mask[i]) {	/* hidden point */
+			if (doDraw) {		/* draw up to here */
+				if ((i - x1 > 1) && visible)
+					drawVector(start, vstart, i, fix(v));
+			}
+			doDraw = 0;
+		}
+		else {				/* visible point */
+			mask[i] = fix(v);	/* update mask */
+			if (doDraw == 0) {	/* start draw from here */
+				start = i;
+				vstart = fix(v);
+			}
+			doDraw = 1;
+		}
+		v = v + step;
 	}
+
+	for (i = x1; i > x2; i--) {		/* check mask for each point */
+		if (fix(v) <= mask[i]) {	/* hidden point */
+			if (doDraw) {		/* draw up to here */
+				if (x1 - i > 1)
+					drawVector(start, vstart, i, fix(v));
+			}
+			doDraw = 0;
+		}
+		else {				/* visible point */
+			mask[i] = fix(v);	/* update mask */
+			if (doDraw == 0) {	/* start draw from here */
+				start = i;
+				vstart = fix(v);
+			}
+			doDraw = 1;
+		}
+		v = v + step;
+	}
+
+	if (doDraw && visible)
+		drawVector(start, vstart, x2, y2);
+	if (y2 < mask[x2])
+		mask[x2] = y2;
 }
 
 int main(argc, argv)
@@ -96,6 +118,18 @@ char *argv[];
 
 	for (i = 0; i < MAXX; i++)
 		mask[i] = 0;
+
+	/* this is required to generate a first mask*/
+	x = 0.0; y = 0.0;
+	x1 = fix(dx * x - dx * y);
+	y1 = fix(dy * x + dy * y + f1(x, y) * scale);
+        for (x = 0; x < max; x += step) {
+		x2 = fix(dx * x - dx * y);
+		y2 = fix(dy * x + dy * y + f1(x, y) * scale);
+		drawmasked(fix(x1 + sx), fix(y1 + sy) - 1, fix(x2 + sx), fix(y2 + sy) - 1, 0);
+		x1 = x2;
+		y1 = y2;
+	}
     
 	for (x = 0; x < max; x += step) {
 		y = 0.0;
@@ -104,7 +138,7 @@ char *argv[];
                 for (y = 0; y < max; y += step) {
 			x2 = fix(dx * x - dx * y);
 			y2 = fix(dy * x + dy * y + f1(x, y) * scale);
-			drawmasked(fix(x1 + sx), fix(y1 + sy), fix(x2 + sx), fix(y2 + sy));
+			drawmasked(fix(x1 + sx), fix(y1 + sy), fix(x2 + sx), fix(y2 + sy), 1);
 			x1 = x2;
 			y1 = y2;
 		}
@@ -113,6 +147,18 @@ char *argv[];
 	for (i = 0; i < MAXX; i++)
 		mask[i] = 0;
 
+	/* this is required to generate a first mask*/
+	x = 0.0; y = 0.0;
+	x1 = fix (dx * x - dx * y);
+	y1 = fix(dy * x + dy * y + f1(x, y) * scale);
+        for (y = 0; y < max; y += step) {
+		x2 = fix(dx * x - dx * y);
+		y2 = fix(dy * x + dy * y + f1(x, y) * scale);
+		drawmasked(fix(x1 + sx), fix(y1 + sy) - 1, fix(x2 + sx), fix(y2 + sy) - 1, 0);
+		x1 = x2;
+		y1 = y2;
+	}
+
 	for (y = 0; y < max; y += step) {
 		x = 0.0;
 		x1 = fix(dx * x - dx * y);
@@ -120,7 +166,7 @@ char *argv[];
                 for (x = 0; x < max; x += step) {
 			x2 = fix(dx * x - dx * y);
 			y2 = fix(dy * x + dy * y + f1(x, y) * scale);
-			drawmasked(fix(x1 + sx), fix(y1 + sy), fix(x2 + sx), fix(y2 + sy));
+			drawmasked(fix(x1 + sx), fix(y1 + sy), fix(x2 + sx), fix(y2 + sy), 1);
 			x1 = x2;
 			y1 = y2;
 		}
@@ -143,6 +189,18 @@ char *argv[];
 
 	for (i = 0; i < MAXX; i++)
 		mask[i] = 0;
+
+	/* this is required to generate a first mask*/
+	x = 0.0; y = 0.0;
+	x1 = fix(dx * x - dx * y);
+	y1 = fix(dy * x + dy * y + f2(x - max/2, y - max/2) * scale);
+        for (x = 0; x < max; x += step) {
+		x2 = fix(dx * x - dx * y);
+		y2 = fix(dy * x + dy * y + f2(x - max/2, y - max/2) * scale);
+		drawmasked(fix(x1 + sx), fix(y1 + sy) - 1, fix(x2 + sx), fix(y2 + sy) - 1, 0);
+		x1 = x2;
+		y1 = y2;
+	}
     
 	for (x = 0; x < max; x += step) {
 		y = 0.0;
@@ -151,7 +209,7 @@ char *argv[];
                 for (y = 0; y < max; y += step) {
 			x2 = fix(dx * x - dx * y);
 			y2 = fix(dy * x + dy * y + f2(x - max/2, y - max/2) * scale);
-			drawmasked(fix(x1 + sx), fix(y1 + sy), fix(x2 + sx), fix(y2 + sy));
+			drawmasked(fix(x1 + sx), fix(y1 + sy), fix(x2 + sx), fix(y2 + sy), 1);
 			x1 = x2;
 			y1 = y2;
 		}
@@ -160,6 +218,18 @@ char *argv[];
 	for (i = 0; i < MAXX; i++)
 		mask[i] = 0;
 
+	/* this is required to generate a first mask*/
+	x = 0.0; y = 0.0;
+	x1 = fix (dx * x - dx * y);
+	y1 = fix(dy * x + dy * y + f2(x -max/2, y - max/2) * scale);
+        for (y = 0; y < max; y += step) {
+		x2 = fix(dx * x - dx * y);
+		y2 = fix(dy * x + dy * y + f2(x - max/2, y - max/2) * scale);
+		drawmasked(fix(x1 + sx), fix(y1 + sy) - 1, fix(x2 + sx), fix(y2 + sy) - 1, 0);
+		x1 = x2;
+		y1 = y2;
+	}
+
 	for (y = 0; y < max; y += step) {
 		x = 0.0;
 		x1 = fix(dx * x - dx * y);
@@ -167,7 +237,7 @@ char *argv[];
                 for (x = 0; x < max; x += step) {
 			x2 = fix(dx * x - dx * y);
 			y2 = fix(dy * x + dy * y + f2(x - max/2, y - max/2) * scale);
-			drawmasked(fix(x1 + sx), fix(y1 + sy), fix(x2 + sx), fix(y2 + sy));
+			drawmasked(fix(x1 + sx), fix(y1 + sy), fix(x2 + sx), fix(y2 + sy), 1);
 			x1 = x2;
 			y1 = y2;
 		}
