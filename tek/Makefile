@@ -1,6 +1,6 @@
 MYBIN="${HOME}/bin"
 
-all: tek thome tgraph test4010 test4014 dodekagon mathdemo mathdemo2 animation
+all: tek thome tgraph test4010 test4014 dodekagon mathdemo mathdemo2 animation circles
 
 tek: tek.c tekio.c tekio.h
 	cc -o tek tek.c tekio.c -lm
@@ -28,6 +28,9 @@ test4014: test4014.c
 
 animation: animation.c tekio.h tekio.c
 	cc -o animation animation.c tekio.c -lm
+
+circles: circles.c tekio.h tekio.c
+	cc -o circles circles.c tekio.c -lm
 
 install:
 	cp tek ${MYBIN}; cp thome ${MYBIN}; cp tgraph ${MYBIN}; cp dodekagon ${MYBIN}

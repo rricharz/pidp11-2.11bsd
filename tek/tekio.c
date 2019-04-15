@@ -127,7 +127,7 @@ int x,y,r;
 {
 	int i;
 	double arg;
-    	startDraw((MAXX / 2) + r, (MAXY /2));
+    	startDraw(x + r, y);
     	for (i = 0; i <= r; i++) {
         	arg = (double)(i) * PI2 / (double) r;
 		draw(x + (int)((double)r * cos(arg)), y + (int)((double)r * sin(arg)));
