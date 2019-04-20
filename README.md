@@ -79,9 +79,15 @@ files. This allows using your favorite editor.
 
   [look at or download pdf](Tek.pdf)
 
+
 **Printing to a networked printer**
 
   [look at or download pdf](Printing.pdf)
+
+
+**Minimal system maintenance**
+
+  [look at or download pdf](Maintenance.pdf)
 
 
 For questions, bug reports and proposals for changes and additions please contact r77@bluewin.ch.

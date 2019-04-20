@@ -25,10 +25,6 @@ double x,y;
 	else return sin(r) / r;
 }
 
-
-/* The masking algorithm is crude. Hidden vectors should not be drawn	*/
-/* and partially hidden vectors require interpolated end points		*/
-
 void drawmasked(x1, y1, x2, y2, visible)
 int x1, y1,x2, y2, visible;
 {
