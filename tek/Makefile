@@ -1,6 +1,9 @@
 MYBIN="${HOME}/bin"
 
-all: tek thome tgraph test4010 test4014 dodekagon mathdemo mathdemo2 animation circles
+all: tek thome tgraph test4010 test4014 dodekagon mathdemo mathdemo2 animation circles testGIN
+
+testGIN: testGIN.c tekio.c tekio.h
+	cc -o testGIN testGIN.c tekio.c -lm
 
 tek: tek.c tekio.c tekio.h
 	cc -o tek tek.c tekio.c -lm
