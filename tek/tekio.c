@@ -157,4 +157,26 @@ double r;
 	else return (int)(r - 0.5);
 }
 
+void setCharacterSize(size)
+int size;
+{
+	if ((size >= 1) && (size <= 4)) {
+		putchar(27);
+		putchar('7' + size);
+	}
+	else
+		printf("setCharacterSize: Illegal size %d\n", size);
+}
+
+void setLineMode(type)
+int type;
+{
+	if ((type >= SOLID) && (type <= LONGDASH)) {
+		putchar(27);
+		putchar(95 + type);
+	}
+	else
+		printf("SetLineMode: illegal type %d\n", type);
+}
+
 

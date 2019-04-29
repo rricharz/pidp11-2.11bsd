@@ -15,7 +15,7 @@
 
 /*                                              */
 /*  clear screen with                           */
-/*     clearScreen()                            */
+/*     clearScreen()                            
 /*                                              */
 /*  draw individual vectors with                */
 /*     drawVector(x1,y1,x2,y2)                  */
@@ -42,13 +42,25 @@
 /* drawJustifiedText(s, line, justify)          */
 /* justify 0=left, 1=center; 2=right            */
 /*                                              */
-/*  writethrough mode for short animations      */
+/* writethrough mode for short animations       */
 /*     startWriteThrough()                      */
 /*     endWriteThrough()                        */
 /*                                              */
+/* setCharacterSize(size)                       */
+/*     select character size 1..4               */
+/*                                              */
+/* void setLineMode(type)                       */
+/*     set line type				*/
+/*   SOLID,DOTTED,DOTDASH,SHORTDASH,LONGDASH    */
 
 #define PI  3.14159265
 #define PI2 6.28318531
+
+#define SOLID		1
+#define DOTTED  	2
+#define DOTDASH 	3
+#define SHORTDASH	4
+#define LONGDASH	5 
 
 extern void drawVector(/* int x1, int y1, int x2, int y2 */);
 extern void moveTo(/* int 1x, int 1y */);
@@ -63,6 +75,5 @@ extern int drawRectangle();
 extern drawCircle();
 extern drawJustifiedText();
 extern int fix();
-
-
-
+extern void setCharacterSize();
+extern void setLineMode();
