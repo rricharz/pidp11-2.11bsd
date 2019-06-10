@@ -91,4 +91,9 @@ files. This allows using your favorite editor.
 
 
 For questions, bug reports and proposals for changes and additions please contact r77@bluewin.ch.
+
+**Other links**
+
+Formatted manual pages for 2.11 BSD can be found at
+[2.11 BSD manual pages](https://github.com/nbreeden2/pidp11-211bsd-man-pages)
 Your opinion is very important for me.
