@@ -96,4 +96,3 @@ For questions, bug reports and proposals for changes and additions please contac
 
 Formatted manual pages for 2.11 BSD can be found at
 [2.11 BSD manual pages](https://github.com/nbreeden2/pidp11-211bsd-man-pages)
-Your opinion is very important for me.
