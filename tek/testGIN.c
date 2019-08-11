@@ -31,6 +31,7 @@ int *x, *y;
     *y  = (getCharacter() & 31) << 5;
     *y += (getCharacter() & 31);
     getCharacter();		/* ignore lf */
+    putchar(13);
     system("stty echo");
 }
 
@@ -46,6 +47,7 @@ int *c, *x, *y;
     *y  = (getCharacter() & 31) << 5;
     *y += (getCharacter() & 31);
     getCharacter();		/* ignore lf */
+    putchar(13);
     system("stty echo");
     
 }
