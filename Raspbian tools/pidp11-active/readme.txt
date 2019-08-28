@@ -25,3 +25,7 @@
 //     chmod +x uninstall
 //     ./uninstall
 //
+// Note: This program was moved from using wiringPi to using pigpio
+//       because wiringPi is deprecated. It must be run with
+//       superuser priviledges, e.g.
+//       sudo ./pidp11-active

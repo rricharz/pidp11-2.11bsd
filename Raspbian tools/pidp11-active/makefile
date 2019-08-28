@@ -1,2 +1,2 @@
 pidp11-active: pidp11-active.c
-	gcc pidp11-active.c -l wiringPi -o pidp11-active
+	gcc -Wall -pthread pidp11-active.c -o pidp11-active -lpigpio -lrt
