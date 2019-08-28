@@ -25,12 +25,9 @@
 //     chmod +x uninstall
 //     ./uninstall
 //
-// Note: This program was moved from using wiringPi to using pigpio
-//       because wiringPi is deprecated. It must be run with
-//       superuser priviledges, e.g.
-//       sudo ./pidp11-active
 
-#include <pigpio.h>
+
+#include <wiringPi.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -44,18 +41,18 @@
 
 int serverWasRunning = 1;   // makes sure that cpio pins are reset for first usage
 
-void blinkForOneSecond(int usage)
+int blinkForOneSecond(int usage)
 // blink for one second, rate based on usage
 {
     int n = (usage / 10) + 1;
-    int d = 500000 / n;
+    int d = 500 / n;
     for (int i = 0; i < n; i++) {
-        gpioWrite(COL1, 1);
-        gpioWrite(COL2, 0);
-        usleep(d);
-        gpioWrite(COL1, 0);
-        gpioWrite(COL2, 1);
-        usleep(d);
+        digitalWrite(COL1, 1);
+        digitalWrite(COL2, 0);
+        delay(d);
+        digitalWrite(COL1, 0);
+        digitalWrite(COL2, 1);
+        delay(d);
     }
 }
 
@@ -63,7 +60,7 @@ void resetPiDP11Gpios()
 // set all gpio pins used by PiDP11 to input
 {
     for (int i = 4; i<=27; i++)
-	if (i != 19) gpioSetMode(i, PI_INPUT);   // gpio 19 is not used
+	if (i != 19) pinMode(i, INPUT);   // gpio 19 is not used
 }
 
 int *parser_result(const char *buf, int size) {
@@ -109,10 +106,7 @@ int main (int argc, char **argv)
         
     fd = open("/proc/stat", O_RDONLY);
 
-    if (gpioInitialise() < 0) {
-	printf("gpio initialize failed\n");
-	exit(1);
-    }
+    wiringPiSetupGpio();    // initialize, use gpio numbering scheme
 
     do {
 	if (system("pidof -x pidp11.sh >/dev/null") != 0) {
@@ -121,10 +115,10 @@ int main (int argc, char **argv)
 
 	    if (serverWasRunning) {
 		resetPiDP11Gpios();
-                gpioSetMode(ROW, PI_OUTPUT);
-                gpioSetMode(COL1, PI_OUTPUT);
-                gpioSetMode(COL2, PI_OUTPUT);
-                gpioWrite(ROW,1);
+                pinMode(ROW, OUTPUT);
+                pinMode(COL1, OUTPUT);
+                pinMode(COL2, OUTPUT);
+                digitalWrite(ROW,1);
 		serverWasRunning = 0;
 	    }
 
@@ -159,7 +153,7 @@ int main (int argc, char **argv)
 	else {
 	    if (!serverWasRunning) resetPiDP11Gpios();
 	    serverWasRunning = 1;
-	    sleep(1);
+	    delay(1000);
 	}
     }
     while (1); // this is a daemon, loop until killed
