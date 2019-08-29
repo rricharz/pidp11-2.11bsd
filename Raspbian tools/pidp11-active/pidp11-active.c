@@ -12,6 +12,11 @@
 //
 // The speed of the LED blinking shows current CPU usage
 //
+// The program also controls a FAN connected with a transistor to Pin 35.
+// If the CPU temperature is above HIGH_TEMP, the fan is turned on
+// If the CPU temperature is below LOW_TEMP, the fan is turned off
+// Set CONTROL_FAN if you do not want to control an attached fan
+//
 // One word of caution: Nothing guarantees that this will still work with
 // new releases of the PiDP-11 software! Use at your own risk!
 //
@@ -36,8 +41,8 @@
 #include <unistd.h>
 
 #define CONTROL_FAN 1		// set to 0 if no fan control is required
-#define HIGH_TEMP 60.0		// turn fan on above this temperature
-#define LOW_TEMP  50.0		// turn fan off below this temperature
+#define HIGH_TEMP 60.0		// turn fan on above this temperature (in °C)
+#define LOW_TEMP  50.0		// turn fan off below this temperature (in °C)
 
 #define ROW  24			// These are the PARITY HIGH and PARITY low leds.
 #define COL1 7
