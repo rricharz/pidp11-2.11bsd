@@ -35,11 +35,16 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#define ROW  24		   // These are the PARITY HIGH and PARITY low leds.
+#define CONTROL_FAN 1		// set to 0 if no fan control is required
+#define HIGH_TEMP 60.0		// turn fan on above this temperature
+#define LOW_TEMP  50.0		// turn fan off below this temperature
+
+#define ROW  24			// These are the PARITY HIGH and PARITY low leds.
 #define COL1 7
 #define COL2 6
+#define FAN  19			// spare pin on PiDP11, used for fan control, if CONTROL_FAN set
 
-int serverWasRunning = 1;   // makes sure that cpio pins are reset for first usage
+int serverWasRunning = 1;	// makes sure that gpio pins are reset for first usage
 
 int blinkForOneSecond(int usage)
 // blink for one second, rate based on usage
@@ -60,7 +65,7 @@ void resetPiDP11Gpios()
 // set all gpio pins used by PiDP11 to input
 {
     for (int i = 4; i<=27; i++)
-	if (i != 19) pinMode(i, INPUT);   // gpio 19 is not used
+	if (i != FAN) pinMode(i, INPUT);   // gpio 19 is not used in PiDP11
 }
 
 int *parser_result(const char *buf, int size) {
@@ -102,11 +107,18 @@ int main (int argc, char **argv)
     int prev_idle = 0;
     int prev_total = 0;
     int idle, total, i;
-    double usage;
+    double T, usage;
+    int fanIsOn;
         
     fd = open("/proc/stat", O_RDONLY);
 
-    wiringPiSetupGpio();    // initialize, use gpio numbering scheme
+    wiringPiSetupGpio();		// initialize, use gpio numbering scheme
+    
+    if (CONTROL_FAN) {
+	pinMode(FAN, OUTPUT);
+	digitalWrite(FAN, 0);		// fan initially turned off
+	fanIsOn = 0;
+    }	
 
     do {
 	if (system("pidof -x pidp11.sh >/dev/null") != 0) {
@@ -155,6 +167,31 @@ int main (int argc, char **argv)
 	    serverWasRunning = 1;
 	    delay(1000);
 	}
+    
+	if (CONTROL_FAN) {
+	    FILE *temperatureFile = fopen(
+                        "/sys/class/thermal/thermal_zone0/temp", "r");
+	    if (temperatureFile != NULL) {
+		fscanf(temperatureFile, "%lf", &T);
+		if (T < 0.0) T = 0.0;
+		if (T > 99999.0) T = 99999.0;
+		T = T / 1000.0;
+		fclose (temperatureFile);
+		}
+	    else T = 0.0;
+	    if ((T > HIGH_TEMP) && (fanIsOn == 0)) {
+		// printf("Fan on, T=%f\n", T);
+		digitalWrite(FAN,1);
+		fanIsOn = 1;
+	    }
+	    else if ((T < LOW_TEMP) && (fanIsOn != 0)) {
+		// printf("Fan off, T=%f\n", T);
+		digitalWrite(FAN,0);
+		fanIsOn = 0;
+	    }
+	    
+	}
+	
     }
     while (1); // this is a daemon, loop until killed
 }
