@@ -90,7 +90,13 @@ files. This allows using your favorite editor.
   [look at or download pdf](Maintenance.pdf)
 
 
+**Very fast connection between a laptop and a Raspberry Pi without a network**
+
+  [look at or download pdf](Connect.pdf)
+
+
 For questions, bug reports and proposals for changes and additions please contact r77@bluewin.ch.
+
 
 **Other links**
 
