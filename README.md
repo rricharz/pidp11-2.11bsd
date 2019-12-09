@@ -94,6 +94,14 @@ files. This allows using your favorite editor.
 
   [look at or download pdf](Connect.pdf)
 
+**Using the TQ tape driver**
+
+You can use the TQ tape driver as an alternative way to transfer files
+between Raspbian and 2.11 BSD. This is especially useful for backing
+up your BSD home directory or transferring it to a new BSD image.
+
+  [look at or download pdf](Tape.pdf)
+
 
 For questions, bug reports and proposals for changes and additions please contact r77@bluewin.ch.
 
