@@ -146,7 +146,8 @@ int main (int argc, char **argv)
 
 		idle=nums[3];
 
-		for(i=0, total=0; i<10; i++) total += nums[i];
+		total = 0;
+		for(i=0; i<10; i++) total += nums[i];
 
 		int diff_idle = idle-prev_idle;
 		int diff_total = total-prev_total;
