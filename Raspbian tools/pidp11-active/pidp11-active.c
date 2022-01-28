@@ -32,7 +32,7 @@
 //
 
 
-#include <wiringPi.h>
+#include <pigpio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -57,12 +57,12 @@ int blinkForOneSecond(int usage)
     int n = (usage / 10) + 1;
     int d = 500 / n;
     for (int i = 0; i < n; i++) {
-        digitalWrite(COL1, 1);
-        digitalWrite(COL2, 0);
-        delay(d);
-        digitalWrite(COL1, 0);
-        digitalWrite(COL2, 1);
-        delay(d);
+        gpioWrite(COL1, 1);
+        gpioWrite(COL2, 0);
+        usleep(d*1000);
+        gpioWrite(COL1, 0);
+        gpioWrite(COL2, 1);
+        usleep(d*1000);
     }
 }
 
@@ -70,7 +70,7 @@ void resetPiDP11Gpios()
 // set all gpio pins used by PiDP11 to input
 {
     for (int i = 4; i<=27; i++)
-	if (i != FAN) pinMode(i, INPUT);   // gpio 19 is not used in PiDP11
+	if (i != FAN) gpioSetMode(i, PI_INPUT);   // gpio 19 is not used in PiDP11
 }
 
 int *parser_result(const char *buf, int size) {
@@ -117,11 +117,11 @@ int main (int argc, char **argv)
         
     fd = open("/proc/stat", O_RDONLY);
 
-    wiringPiSetupGpio();		// initialize, use gpio numbering scheme
+    gpioInitialise();
     
     if (CONTROL_FAN) {
-	pinMode(FAN, OUTPUT);
-	digitalWrite(FAN, 0);		// fan initially turned off
+	gpioSetMode(FAN, PI_OUTPUT);
+	gpioWrite(FAN, 0);		// fan initially turned off
 	fanIsOn = 0;
     }	
 
@@ -132,10 +132,10 @@ int main (int argc, char **argv)
 
 	    if (serverWasRunning) {
 		resetPiDP11Gpios();
-                pinMode(ROW, OUTPUT);
-                pinMode(COL1, OUTPUT);
-                pinMode(COL2, OUTPUT);
-                digitalWrite(ROW,1);
+                gpioSetMode(ROW, PI_OUTPUT);
+                gpioSetMode(COL1, PI_OUTPUT);
+                gpioSetMode(COL2, PI_OUTPUT);
+                gpioWrite(ROW,1);
 		serverWasRunning = 0;
 	    }
 
@@ -171,7 +171,7 @@ int main (int argc, char **argv)
 	else {
 	    if (!serverWasRunning) resetPiDP11Gpios();
 	    serverWasRunning = 1;
-	    delay(1000);
+	    sleep(1);
 	}
     
 	if (CONTROL_FAN) {
@@ -187,12 +187,12 @@ int main (int argc, char **argv)
 	    else T = 0.0;
 	    if ((T > HIGH_TEMP) && (fanIsOn == 0)) {
 		// printf("Fan on, T=%f\n", T);
-		digitalWrite(FAN,1);
+		gpioWrite(FAN,1);
 		fanIsOn = 1;
 	    }
 	    else if ((T < LOW_TEMP) && (fanIsOn != 0)) {
 		// printf("Fan off, T=%f\n", T);
-		digitalWrite(FAN,0);
+		gpioWrite(FAN,0);
 		fanIsOn = 0;
 	    }
 	    
